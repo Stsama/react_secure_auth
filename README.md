@@ -88,3 +88,100 @@ Ensure you have the following installed on your local development environment:
     - bcrypt for password hashing.
     - jsonwebtoken for managing tokens.
     - Google Authenticator for 2FA.
+
+
+
+
+====================================== Version Française ====================================== 
+
+
+# react_secure_auth
+
+## Vue d'ensemble
+
+**react_secure_auth** est une application MERN axée sur l'amélioration de la sécurité grâce à l'authentification à deux facteurs (2FA). Ce projet démontre des pratiques d'authentification sécurisées, y compris le hachage des mots de passe, l'authentification JWT, et le 2FA pour protéger les comptes utilisateurs.
+
+## Fonctionnalités
+
+- **Authentification des utilisateurs** : Inscription et connexion sécurisées des utilisateurs utilisant JWT.
+- **Authentification à deux facteurs (2FA)** : Ajoute une couche supplémentaire de sécurité en exigeant une seconde forme de vérification.
+- **Hachage des mots de passe** : Utilise bcrypt pour hacher les mots de passe avant de les stocker dans la base de données.
+- **Authentification par jeton** : Utilise JSON Web Tokens (JWT) pour gérer les sessions utilisateurs de manière sécurisée.
+- **Variables d'environnement** : Variables d'environnement configurables pour les informations sensibles telles que les secrets JWT et les clés API.
+
+## Pile technologique
+
+- **Frontend** : React.js
+- **Backend** : Node.js avec Express.js
+- **Base de données** : MongoDB (MongoDB Atlas)
+- **Authentification** : JWT, bcrypt, 2FA (utilisant Google Authenticator ou similaire)
+- **Docker** : Dockerisé pour un déploiement facile
+- **CI/CD** : GitHub Actions
+- **Contrôle de version** : Git
+
+## Prise en main
+
+### Prérequis
+
+Assurez-vous d'avoir les éléments suivants installés sur votre environnement de développement local :
+
+- [Node.js](https://nodejs.org/)
+- [MongoDB](https://www.mongodb.com/) (Atlas ou instance locale)
+- [Docker](https://www.docker.com/)
+- [Git](https://git-scm.com/)
+
+### Installation
+
+1. **Cloner le dépôt :**
+
+   ```bash
+   git clone https://github.com/yourusername/react_secure_auth.git
+   cd react_secure_auth
+2. Installer les dépendances pour le frontend et le backend :
+
+  # Installer les dépendances du backend
+  cd backend
+  npm install
+
+  # Installer les dépendances du frontend
+  cd ../frontend
+  npm install
+
+3. Variables d'environnement :
+
+  # Créez un fichier .env dans le répertoire backend et remplissez-le avec les informations suivantes :
+
+    PORT=5000
+    MONGODB_URI=your_mongodb_connection_string
+    JWT_SECRET=your_jwt_secret
+
+4. Exécuter l'application :
+  ```bash
+  # Exécuter le backend
+  cd backend
+  npm start
+
+  # Exécuter le frontend
+  cd ../frontend
+  npm start
+
+5. Configuration Docker (Optionnel) :
+  # Si vous préférez utiliser Docker, construisez et exécutez les conteneurs :
+  ```bash
+  docker-compose up --build
+
+## Contribution
+  # Les contributions sont les bienvenues ! Veuillez suivre le flux de travail Git standard :
+  1. Forker le dépôt.
+  2. Créer votre branche de fonctionnalité (git checkout -b feature/votre-fonctionnalité).
+  3. Commiter vos modifications (git commit -m 'Ajouter une fonctionnalité').
+  4. Pousser vers la branche (git push origin feature/votre-fonctionnalité).
+  5. Ouvrir une Pull Request.
+
+## Licence
+  Ce projet est sous licence MIT - voir le fichier LICENSE pour plus de détails.
+
+## Remerciements
+  1. bcrypt pour le hachage des mots de passe.
+  2. jsonwebtoken pour la gestion des jetons.
+  3. Google Authenticator pour le 2FA.
