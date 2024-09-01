@@ -2,7 +2,7 @@ import { User} from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import dotenv from 'dotenv';
-import { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail } from '../mailtrap/emails.js';
+import { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail, sendResetSuccessEmail } from '../mailtrap/emails.js';
 import {generateTokenAndSetCookie} from '../utils/generateTokenAndSetCookie.js';
 
 
@@ -152,3 +152,29 @@ export const forgotPassword = async (req, res) => {
     }
 }
 
+export const resetPassword = async (req, res) => {
+    const {token} = req.params;
+    const {password} = req.body;
+    try {
+        if(!password){ 
+            return res.status(400).json({success: false, message:"Enter a new password"});
+        }
+        const user = await User.findOne({
+            resetPasswordToken: token,
+            resetPasswordExpiresAt: {$gt: Date.now()},
+        });
+        if (!user) {
+            return res.status(400).json({success: false, message:"Invalid or expired reset password token"});
+        }
+        const hashedPassword = await bcrypt.hash(password, 12);
+        user.password = hashedPassword;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpiresAt = undefined;
+        await user.save();
+
+        await sendResetSuccessEmail(user.email);
+        res.status(200).json({success: true, message: "Password reset successfully"});
+    } catch (error) {
+        res.status(500).json({success: false, message: error.message});
+    }
+}
