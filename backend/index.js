@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import morgan from 'morgan';
 import authRoutes from './routes/auth.routes.js';
 
 import { connectDB } from './db/connectDB.js';
@@ -10,9 +11,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 
-
-
-app.use("/api/v1/auth", authRoutes);
+// middlewares
+app.use(morgan('common')); // log requests
+app.use(express.json()); // allows us to parse incoming requests:req.body
+app.use("/api/auth", authRoutes);
 
 
 
