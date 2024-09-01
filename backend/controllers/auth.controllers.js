@@ -8,6 +8,22 @@ import {generateTokenAndSetCookie} from '../utils/generateTokenAndSetCookie.js';
 
 dotenv.config();
 
+
+export const checkAuth = async (req, res) => {
+    const user = await User.findById(req.userId);
+    try {
+        if (!user) {
+            return res.status(401).json({success: false, message: "User not found"});
+        }
+        res.status(200).json({success: true, user: {
+            ...user._doc,
+            password: undefined,
+        }});
+    } catch (error) {
+        res.status(500).json({success: false, message: error.message});
+    }
+}
+
 export const signup = async (req, res) => {
     const {email, password, name} = req.body;
     try {
