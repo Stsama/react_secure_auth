@@ -1,16 +1,26 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import toast from 'react-hot-toast'
 import {Mail, Lock, Loader} from 'lucide-react'
 import Input from '../components/Input'
+import { useAuthStore } from '../store/authStore'
+
 
 const LoginPage = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    const handleLogin = (e) => {
+    const {login, isLoading, error} = useAuthStore()
+
+    const handleLogin = async (e) => {
         e.preventDefault()
-        console.log(email, password)
+        try {
+            await login(email, password)
+            toast.success('Logged in successfully')
+        } catch (error) {
+            toast.error(error.message)
+        }
     }
   return (
     <motion.div
@@ -44,6 +54,7 @@ const LoginPage = () => {
                             Forgot Password?
                         </Link>
                     </div>
+                    {error && <p className='text-red-500 text-center font-semibold mb-2'>{error}</p>}
                     <motion.button className='w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white
                     font-bold rounded-lg shadow-lg hover:from-green-600
                     hover:to-emerald-700 focus:outline-none focus:right-2 focus:ring-green-500 focus:ring-offset-2
@@ -51,8 +62,9 @@ const LoginPage = () => {
                     whileHover={{scale: 1.02}}
                     whileTap={{scale: 0.98}}
                     type='submit'
+                    disabled={isLoading}
                     >
-                        Log In
+                        {isLoading ? <Loader className="animate-spin mx-auto" size={24} /> : "Sign Up"}
                     </motion.button>
                 </form>
                 

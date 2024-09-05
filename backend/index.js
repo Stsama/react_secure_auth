@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.routes.js';
 
@@ -11,6 +12,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+app.use(cors({origin: 'http://localhost:5173', credentials: true })); // allow requests from an origin
 
 // middlewares
 app.use(morgan('common')); // log requests

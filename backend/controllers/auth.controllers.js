@@ -15,19 +15,18 @@ export const checkAuth = async (req, res) => {
         if (!user) {
             return res.status(401).json({success: false, message: "User not found"});
         }
-        res.status(200).json({success: true, user: {
+        return res.status(200).json({success: true, user: {
             ...user._doc,
             password: undefined,
         }});
     } catch (error) {
-        res.status(500).json({success: false, message: error.message});
+        return res.status(500).json({success: false, message: error.message});
     }
 }
 
 export const signup = async (req, res) => {
     const {email, password, name} = req.body;
     try {
-        console.log(req.body);
         if(!email || !password || !name){
            throw new Error("Please fill in all fields");
         }
@@ -55,7 +54,7 @@ export const signup = async (req, res) => {
         // send verification email
         await sendVerificationEmail(user.email, verificationToken);
 
-        res.status(201).json({
+        return res.status(201).json({
             success: true,
             message: "User created successfully",
         user: {
@@ -65,7 +64,7 @@ export const signup = async (req, res) => {
         });
 
     } catch (error) {
-        res.status(400).json({success: false, message: error.message});
+        return res.status(400).json({success: false, message: error.message});
     }
 }
 
@@ -91,7 +90,7 @@ export const verifyEmail = async (req, res) => {
 
         // send a welcome email
         await sendWelcomeEmail(user.email, user.name);
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message: "Email verified successfully",
             user: {
@@ -101,7 +100,7 @@ export const verifyEmail = async (req, res) => {
         });
 
     } catch (error) {
-        res.status(500).json({success: false, message: error.message});
+        return res.status(500).json({success: false, message: error.message});
     }
 }
 
@@ -125,7 +124,7 @@ export const login = async (req, res) => {
 
         user.lastLogin = Date.now();
         await user.save();
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message: "Logged in successfully",
             user: {
@@ -134,13 +133,13 @@ export const login = async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(500).json({success: false, message: error.message});
+        return res.status(500).json({success: false, message: error.message});
     }
 }
 
 export const logout = async (req, res) => {
     res.clearCookie('token');
-    res.status(200).json({success: true, message: "Logged out successfully"});
+    return res.status(200).json({success: true, message: "Logged out successfully"});
 }
 
 export const forgotPassword = async (req, res) => {
@@ -162,9 +161,9 @@ export const forgotPassword = async (req, res) => {
         user.resetPasswordExpiresAt = resetPasswordExpiresAt;
         await user.save();
         sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetPasswordToken}`);
-        res.status(200).json({success: true, message: "Password reset link sent successfully"});
+        return res.status(200).json({success: true, message: "Password reset link sent successfully"});
     } catch (error) {
-        res.status(500).json({success: false, message: error.message});
+        return res.status(500).json({success: false, message: error.message});
     }
 }
 
@@ -189,8 +188,8 @@ export const resetPassword = async (req, res) => {
         await user.save();
 
         await sendResetSuccessEmail(user.email);
-        res.status(200).json({success: true, message: "Password reset successfully"});
+        return res.status(200).json({success: true, message: "Password reset successfully"});
     } catch (error) {
-        res.status(500).json({success: false, message: error.message});
+        return res.status(500).json({success: false, message: error.message});
     }
 }
