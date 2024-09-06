@@ -9,6 +9,8 @@ import DashboardPage from "./pages/DashboardPage";
 import SignUpPage from "./pages/SignUpPage";
 import EmailVerificationPage from "./pages/EmailVerificationPage";
 import { useAuthStore } from "./store/authStore";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 
 // Protect routes that require authentication
@@ -37,7 +39,7 @@ const RedirectAuthenticatedUser = ({children}) => {
 // redirect unauthenticated users to login page
 
 function App() {
-  const { isCheckingAuth, checkAuth, isAuthenticated, user} = useAuthStore();
+  const { isCheckingAuth, checkAuth } = useAuthStore();
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
@@ -90,7 +92,20 @@ function App() {
           </RedirectAuthenticatedUser>
         } />
         <Route path="/verify-email" element={<EmailVerificationPage />} />
+        <Route path="/forgot-password" element={
+          <RedirectAuthenticatedUser>
+            <ForgotPasswordPage />
+          </RedirectAuthenticatedUser> } />
+          <Route path="/reset-password/:token" element={
+            <RedirectAuthenticatedUser>
+              <ResetPasswordPage />
+            </RedirectAuthenticatedUser> } />
+            {/* 404 page */}
+          <Route path="*" element={ <Navigate to='/' replace />} />
+
       </Routes>
+      
+
       <Toaster />
 
     </div>

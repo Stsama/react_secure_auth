@@ -24,7 +24,7 @@ const SignUpPage = () => {
       navigate("/verify-email");
       toast.success("Account created successfully. Please verify your email.");
     } catch (error) {
-        toast.error(error.message);
+        
     }   
   };
   return (

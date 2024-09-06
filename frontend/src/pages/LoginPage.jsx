@@ -19,7 +19,6 @@ const LoginPage = () => {
             await login(email, password)
             toast.success('Logged in successfully')
         } catch (error) {
-            toast.error(error.message)
         }
     }
   return (
@@ -64,7 +63,7 @@ const LoginPage = () => {
                     type='submit'
                     disabled={isLoading}
                     >
-                        {isLoading ? <Loader className="animate-spin mx-auto" size={24} /> : "Sign Up"}
+                        {isLoading ? <Loader className="animate-spin mx-auto" size={24} /> : "Login"}
                     </motion.button>
                 </form>
                 
